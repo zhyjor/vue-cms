@@ -37,5 +37,55 @@ export const asyncRouterMap = [
       icon: 'lock',
       roles: ['admin', 'editor']
     }
+  },
+  {
+    path: '/table',
+    component: Layout,
+    redirect: '/table/dynamic-table',
+    name: 'table',
+    meta: {
+      title: 'Table',
+      icon: 'table',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'dynamic-table',
+        component: () => import('@/views/table/approveTestTable'),
+        name: 'approveTable',
+        meta: { title: 'approveTable' }
+      },
+      {
+        path: 'drag-table',
+        component: () => import('@/views/table/complexTable'),
+        name: 'complexTable',
+        meta: { title: 'complexTable' }
+      }
+    ]
+  },
+  {
+    path: '/monitor',
+    component: Layout,
+    redirect: '/monitor/fe-error',
+    name: 'monitor',
+    meta: {
+      title: 'monitor',
+      icon: 'table',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: 'fe-error',
+        component: () => import('@/views/monitor/error/index'),
+        name: 'Monitor',
+        meta: { title: 'Monitor' }
+      },
+      {
+        path: 'fe-device',
+        component: () => import('@/views/monitor/error/index'),
+        name: 'Device',
+        meta: { title: 'Device' }
+      }
+    ]
   }
 ]

@@ -1,5 +1,9 @@
 export default {
   route: {
+    Monitor: '监控',
+    monitor: '监控',
+    Device: '设备',
+    approveTable: '测试审批',
     dashboard: 'Dashboard',
     introduction: 'Introduction',
     documentation: 'Documentation',
@@ -123,7 +127,14 @@ export default {
     draft: 'Draft',
     delete: 'Delete',
     cancel: 'Cancel',
-    confirm: 'Confirm'
+    confirm: 'Confirm',
+    name: '姓名',
+    category: '权限类型',
+    startTime: '开始时间',
+    endTime: '结束时间',
+    tel: '手机号',
+    accept: '同意',
+    refuse: '拒绝'
   },
   errorLog: {
     tips: 'Please click the bug icon in the upper right corner',
