@@ -104,109 +104,109 @@
 </template>
 
 <script>
-import { fetchTestorList } from '@/api/testorList'
-import { parseTime } from '@/utils'
+  import { fetchTestorList } from '@/api/testorList'
+  import { parseTime } from '@/utils'
 
-const calendarTypeOptions = [
-  { key: '1', display_name: '未处理' },
-  { key: '2', display_name: '生效中' },
-  { key: '3', display_name: '已拒绝' },
-  { key: '4', display_name: '已过期' }
-]
+  const calendarTypeOptions = [
+    { key: '1', display_name: '未处理' },
+    { key: '2', display_name: '生效中' },
+    { key: '3', display_name: '已拒绝' },
+    { key: '4', display_name: '已过期' }
+  ]
 
-export default {
-  name: 'approveTestTable',
-  data() {
-    return {
-      tableKey: 0,
-      list: null,
-      total: null,
-      button: ['1', '2'],
-      listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 20,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
-        sort: '+id'
-      },
-      calendarTypeOptions,
-      sortOptions: [{ label: 'ID升序', key: '+id' }, { label: 'ID降序', key: '-id' }],
-      showReviewer: false,
-      downloadLoading: false
-    }
-  },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
+  export default {
+    name: 'approveTestTable',
+    data() {
+      return {
+        tableKey: 0,
+        list: null,
+        total: null,
+        button: ['1', '2'],
+        listLoading: true,
+        listQuery: {
+          page: 1,
+          limit: 20,
+          importance: undefined,
+          title: undefined,
+          type: undefined,
+          sort: '+id'
+        },
+        calendarTypeOptions,
+        sortOptions: [{ label: 'ID升序', key: '+id' }, { label: 'ID降序', key: '-id' }],
+        showReviewer: false,
+        downloadLoading: false
       }
-      return statusMap[status]
-    }
-  },
-  created() {
-    this.getList()
-  },
-  methods: {
-    getList() {
-      this.listLoading = true
-      fetchTestorList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
-
-        // Just to simulate the time of the request
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
-      })
     },
-    handleFilter() {
-      this.listQuery.page = 1
-      this.getList()
-    },
-    handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal, this.list)
-        excel.export_json_to_excel({
-          header: tHeader,
-          data,
-          filename: 'table-list'
-        })
-        this.downloadLoading = false
-      })
-    },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-          return parseTime(v[j])
-        } else {
-          return v[j]
+    filters: {
+      statusFilter(status) {
+        const statusMap = {
+          published: 'success',
+          draft: 'info',
+          deleted: 'danger'
         }
-      }))
+        return statusMap[status]
+      }
     },
-    handleModifyStatus(row, status) {
-      this.$message({
-        message: '操作成功',
-        type: 'success'
-      })
-      // row.status = status
-    },
-    handleSizeChange(val) {
-      this.listQuery.limit = val
+    created() {
       this.getList()
     },
-    handleCurrentChange(val) {
-      this.listQuery.page = val
-      this.getList()
+    methods: {
+      getList() {
+        this.listLoading = true
+        fetchTestorList(this.listQuery).then(response => {
+          this.list = response.data.items
+          this.total = response.data.total
+
+          // Just to simulate the time of the request
+          setTimeout(() => {
+            this.listLoading = false
+          }, 1.5 * 1000)
+        })
+      },
+      handleFilter() {
+        this.listQuery.page = 1
+        this.getList()
+      },
+      handleDownload() {
+        this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
+          const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+          const data = this.formatJson(filterVal, this.list)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: 'table-list'
+          })
+          this.downloadLoading = false
+        })
+      },
+      formatJson(filterVal, jsonData) {
+        return jsonData.map(v => filterVal.map(j => {
+          if (j === 'timestamp') {
+            return parseTime(v[j])
+          } else {
+            return v[j]
+          }
+        }))
+      },
+      handleModifyStatus(row, status) {
+        this.$message({
+          message: '操作成功',
+          type: 'success'
+        })
+        // row.status = status
+      },
+      handleSizeChange(val) {
+        this.listQuery.limit = val
+        this.getList()
+      },
+      handleCurrentChange(val) {
+        this.listQuery.page = val
+        this.getList()
+      }
     }
   }
-}
 </script>
 
 <style scoped lang="scss">
