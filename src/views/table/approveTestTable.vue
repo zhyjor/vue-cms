@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter"
                 style="width: 200px"
@@ -28,6 +29,7 @@
         {{$t('table.reviewer')}}
       </el-checkbox>
     </div>
+
     <el-table :key="tableKey" :data="list" v-loading="listLoading" border fit highlight-current-row
               style="width: 100%;min-height:1000px;">
       <el-table-column align="center" :label="$t('table.id')" width="80">
@@ -88,6 +90,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <div class="pagination-container">
       <el-pagination background
                      @size-change="handleSizeChange"

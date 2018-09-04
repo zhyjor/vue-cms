@@ -4,6 +4,7 @@ export default {
     monitor: '监控',
     Device: '设备',
     approveTable: '测试审批',
+    traderIdentityVerification: '运营商审核',
     dashboard: '首页',
     introduction: '简述',
     documentation: '文档',
