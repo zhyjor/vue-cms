@@ -209,12 +209,10 @@
         })
       },
       handleFilter() {
-        alert('handleFilter')
         this.listQuery.page = 1
         this.getList()
       },
       handleDownload() {
-        alert('handleDownload')
         this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
@@ -229,17 +227,18 @@
         })
       },
       handleSizeChange(val) {
-        alert('handleSizeChange')
         this.listQuery.limit = val
         this.getList()
       },
       handleCurrentChange(val) {
-        alert('handleCurrentChange')
         this.listQuery.page = val
         this.getList()
       },
       handleModifyStatus(row, status) {
-        alert('handleModifyStatus')
+        this.$message({
+          message: '操作成功',
+          type: 'success'
+        })
       }
     }
   }
@@ -247,14 +246,5 @@
 </script>
 
 <style scoped lang="scss">
-  /**试一下hover样式**/
-  /*img:hover {*/
-    /*transform: scale(5.0);*/
-  /*}*/
-
-  /*.imgHover:hover{*/
-    /*width: 500px;*/
-    /*height: 400px;*/
-  /*}*/
 
 </style>

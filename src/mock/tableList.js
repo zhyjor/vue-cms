@@ -14,9 +14,9 @@ for (let i = 0; i < count; i++) {
     idCardNo: Mock.Random.id(),
     idCardPic: Mock.Random.image('360x200', '#FFC0CB', 'ID Card'),
     busiLicNum: Mock.Random.id(),
-    busiLicName: '@increment',
+    busiLicName: Mock.mock('@cword(3,8)'),
     busiLicPic: Mock.Random.image('360x200', '#D1EEEE', 'Business Licence'),
-    'status|1': ['未处理', '生效中', '已拒绝', '已过期'],
+    'status|1': ['未处理', '已通过', '已拒绝', '已过期'],
     reviewer: '@cname(3)'
   }))
 }
