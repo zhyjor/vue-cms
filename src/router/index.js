@@ -82,7 +82,7 @@ export const asyncRouterMap = [
       },
       {
         path: 'fe-device',
-        component: () => import('@/views/monitor/error/index'),
+        component: () => import('@/views/monitor/device/index'),
         name: 'Device',
         meta: { title: 'Device' }
       }

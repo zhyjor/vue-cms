@@ -1,16 +1,44 @@
+// import Vue from 'vue'
+
 const tagsView = {
   state: {
     visitedViews: [],
     cachedViews: []
   },
   mutations: {
+    // ADD_VISITED_VIEWS: (state, view) => {
+    //   if (state.visitedViews.some(v => v.path === view.path)) return
+    //   state.visitedViews.push(Object.assign({}, view, {
+    //     title: view.meta.title || 'no-name'
+    //   }))
+    //   if (!view.meta.noCache) {
+    //     state.cachedViews.push(view.name)
+    //   }
+    // },
     ADD_VISITED_VIEWS: (state, view) => {
-      if (state.visitedViews.some(v => v.path === view.path)) return
-      state.visitedViews.push(Object.assign({}, view, {
-        title: view.meta.title || 'no-name'
-      }))
-      if (!view.meta.noCache) {
-        state.cachedViews.push(view.name)
+      // 如果按照旧的逻辑处理，假如path相同，直接return，现在改为替换原数组，会有的性能问题，后续可以考虑一下
+      if ((state.visitedViews.some(v => v.path === view.path))) {
+        var arr = []
+        for (var i = 0; i < state.visitedViews.length; i++) {
+          if (state.visitedViews[i].path === view.path) {
+            // path是不可修改的，不能使用
+            // Vue.set(state.visitedViews, i, view)
+            // state.visitedViews.splice(i, 1)
+            arr.push(Object.assign({}, view, {
+              title: view.meta.title || 'no-name'
+            }))
+          } else {
+            arr.push(state.visitedViews[i])
+          }
+        }
+        state.visitedViews = arr
+      } else {
+        state.visitedViews.push(Object.assign({}, view, {
+          title: view.meta.title || 'no-name'
+        }))
+        if (!view.meta.noCache) {
+          state.cachedViews.push(view.name)
+        }
       }
     },
     DEL_VISITED_VIEWS: (state, view) => {
