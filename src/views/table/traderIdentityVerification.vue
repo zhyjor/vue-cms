@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-
+  <div  class="app-container">
+    <!--运营商账号筛选栏-->
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter"
                 style="width: 200px"
@@ -30,67 +30,110 @@
       </el-checkbox>
     </div>
 
-    <el-table :key="tableKey" :data="list" v-loading="listLoading" border fit highlight-current-row
-              style="width: 100%;min-height:1000px;">
+    <!--运营商信息审核表格-->
+    <el-table
+      :key="tableKey" :data="list" v-loading="listLoading" border fit highlight-current-row
+      style="width: 100%;min-height:1000px;">
       <el-table-column align="center" :label="$t('table.id')" width="80">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="100px" align="center" :label="$t('table.name')">
+
+      <el-table-column align="center" :label="$t('table.startTime')" width="120">
         <template slot-scope="scope">
-          <span>{{scope.row.name}}</span>
+          <span>{{scope.row.startTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="100px" align="center" :label="$t('table.category')">
+
+      <el-table-column align="center" :label="$t('table.idCard')" width="120">
         <template slot-scope="scope">
-          <span>{{scope.row.category}}</span>
+          <span>{{scope.row.idCard}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="120px" align="center" :label="$t('table.tel')">
+      <el-table-column align="center" :label="$t('table.tel')" width="120">
         <template slot-scope="scope">
           <span>{{scope.row.tel}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="140px" align="center" :label="$t('table.startTime')">
+      <el-table-column align="center" :label="$t('table.idCardNo')" width="180">
         <template slot-scope="scope">
-          <span>{{scope.row.startTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+          <span>{{scope.row.idCardNo}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="140px" align="center" :label="$t('table.endTime')">
+
+      <el-table-column align="center" :label="$t('table.idCardPic')" width="200">
         <template slot-scope="scope">
-          <span>{{scope.row.endTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+          <el-popover
+            placement="right"
+            title="大图模式"
+            trigger="hover">
+            <img :src="scope.row.idCardPic" width="360px" height="200px" :alt="scope.row.idCard">
+            <img slot="reference" :src="scope.row.idCardPic" :alt="scope.row.idCard"  width="180px" height="100px">
+          </el-popover>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" :label="$t('table.status')" width="100">
+
+      <el-table-column align="center" :label="$t('table.busiLicNum')" width="180">
+        <template slot-scope="scope">
+          <span>{{scope.row.busiLicNum}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" :label="$t('table.busiLicName')" width="120">
+        <template slot-scope="scope">
+          <span>{{scope.row.busiLicName}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" :label="$t('table.busiLicPic')" min-width="200" class="imgHover">
+        <template slot-scope="scope">
+          <el-popover
+            placement="right"
+            title="大图模式"
+            trigger="hover">
+            <img :src="scope.row.busiLicPic" width="360px" height="200px" alt="营业执照照片" >
+            <img slot="reference" :src="scope.row.busiLicPic" :alt="scope.row.busiLicName" width="180px" height="100px">
+          </el-popover>
+        </template>
+      </el-table-column>
+
+      <el-table-column class-name="status-col" :label="$t('table.status')" width="120">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="100px" v-if='showReviewer' align="center" :label="$t('table.reviewer')">
+      <el-table-column width="120" v-if='showReviewer' align="center" :label="$t('table.reviewer')">
         <template slot-scope="scope">
           <span style='color:red;'>{{scope.row.reviewer}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.actions')" width="" class-name="small-padding fixed-width">
+
+      <el-table-column align="center" :label="$t('table.endTime')" width="120">
+        <template slot-scope="scope">
+          <span>{{scope.row.endTime}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" :label="$t('table.actions')" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-if="scope.row.status==='未处理'" size="mini" type="success"
                      @click="handleModifyStatus(scope.row,'accept')">{{$t('table.accept')}}
           </el-button>
-          <el-button v-if="scope.row.status==='生效中'" size="mini" type="danger"
-                     @click="handleModifyStatus(scope.row,'terminate')">{{$t('table.terminate')}}
-          </el-button>
           <el-button v-if="scope.row.status==='未处理'" size="mini" type="danger"
-                     @click="handleModifyStatus(scope.row,'refuse')">
-            {{$t('table.refuse')}}
+                     @click="handleModifyStatus(scope.row,'refuse')">{{$t('table.refuse')}}
+          </el-button>
+          <el-button v-if="scope.row.status==='已通过'" size="mini" type="danger"
+                     @click="handleModifyStatus(scope.row,'terminate')">{{$t('table.terminate')}}
           </el-button>
           <el-button v-if="scope.row.status==='已拒绝'||scope.row.status==='已过期'" size="mini"
                      @click="handleModifyStatus(scope.row,'deleted')">{{$t('table.delete')}}
           </el-button>
         </template>
       </el-table-column>
+
     </el-table>
 
+    <!--分页显示-->
     <div class="pagination-container">
       <el-pagination background
                      @size-change="handleSizeChange"
@@ -99,33 +142,28 @@
                      :page-sizes="[10,20]"
                      :page-size="listQuery.limit"
                      layout="total,sizes,prev,pager,next,jumper"
-                     :total="total"></el-pagination>
+                     :total="total">
+
+      </el-pagination>
     </div>
 
   </div>
-
 </template>
 
 <script>
-  import { fetchTestorList } from '@/api/testorList'
-  import { parseTime } from '@/utils'
-
+  import { fetchTableList } from '@/api/tableList'
   const calendarTypeOptions = [
     { key: '1', display_name: '未处理' },
-    { key: '2', display_name: '生效中' },
+    { key: '2', display_name: '已通过' },
     { key: '3', display_name: '已拒绝' },
     { key: '4', display_name: '已过期' }
   ]
 
   export default {
-    name: 'approveTestTable',
+    name: 'traderIdentityVerification',
     data() {
       return {
-        tableKey: 0,
         list: null,
-        total: null,
-        button: ['1', '2'],
-        listLoading: true,
         listQuery: {
           page: 1,
           limit: 20,
@@ -136,8 +174,11 @@
         },
         calendarTypeOptions,
         sortOptions: [{ label: 'ID升序', key: '+id' }, { label: 'ID降序', key: '-id' }],
+        downloadLoading: false,
         showReviewer: false,
-        downloadLoading: false
+        listLoading: false,
+        tableKey: 0,
+        total: null
       }
     },
     filters: {
@@ -151,12 +192,13 @@
       }
     },
     created() {
+      // 获取测试数据
       this.getList()
     },
     methods: {
       getList() {
         this.listLoading = true
-        fetchTestorList(this.listQuery).then(response => {
+        fetchTableList(this.listQuery).then(response => {
           this.list = response.data.items
           this.total = response.data.total
 
@@ -184,22 +226,6 @@
           this.downloadLoading = false
         })
       },
-      formatJson(filterVal, jsonData) {
-        return jsonData.map(v => filterVal.map(j => {
-          if (j === 'timestamp') {
-            return parseTime(v[j])
-          } else {
-            return v[j]
-          }
-        }))
-      },
-      handleModifyStatus(row, status) {
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        })
-        // row.status = status
-      },
       handleSizeChange(val) {
         this.listQuery.limit = val
         this.getList()
@@ -207,9 +233,16 @@
       handleCurrentChange(val) {
         this.listQuery.page = val
         this.getList()
+      },
+      handleModifyStatus(row, status) {
+        this.$message({
+          message: '操作成功',
+          type: 'success'
+        })
       }
     }
   }
+
 </script>
 
 <style scoped lang="scss">

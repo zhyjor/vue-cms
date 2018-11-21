@@ -4,6 +4,7 @@ import articleAPI from './article'
 import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
 import testorListAPI from './testorList'
+import tableApi from './tableList'
 
 // Mock.setup({
 //   timeout: '350-600'
@@ -29,5 +30,8 @@ Mock.mock(/\/transaction\/list/, 'get', transactionAPI.getList)
 
 // 测试权限相关
 Mock.mock(/\/account\/test\/authorize/, 'get', testorListAPI.getTestorList)
+
+// 在此制造一个运营商待审核信息的假数据
+Mock.mock(/\/table\/traderIdentityVerification/, 'post', tableApi.getTraderList)
 
 export default Mock

@@ -60,6 +60,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/table/complexTable'),
         name: 'complexTable',
         meta: { title: 'complexTable' }
+      },
+      {
+        path: 'identity-table',
+        component: () => import('@/views/table/traderIdentityVerification'),
+        name: 'traderIdentityVerification',
+        meta: { title: 'traderIdentityVerification' }
       }
     ]
   },

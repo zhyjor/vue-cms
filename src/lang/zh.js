@@ -4,6 +4,7 @@ export default {
     monitor: '监控',
     Device: '设备',
     approveTable: '测试审批',
+    traderIdentityVerification: '运营商审核',
     dashboard: '首页',
     introduction: '简述',
     documentation: '文档',
@@ -135,7 +136,13 @@ export default {
     tel: '手机号',
     accept: '同意',
     refuse: '拒绝',
-    terminate: '终止'
+    terminate: '终止',
+    idCard: '身份证名称',
+    idCardNo: '身份证号码',
+    idCardPic: '身份证照片',
+    busiLicNum: '经营许可证编号',
+    busiLicName: '经营许可证名称',
+    busiLicPic: '经营许可证照片'
   },
   errorLog: {
     tips: '请点击右上角bug小图标',
